@@ -7,10 +7,18 @@ const app = express();
 // Connect Database
 const connectDB = require('./db/connect');
 
+// Error Handler Middleware Import
+const notFoundMiddleware = require('./middleware/not-found');
+const errorHandlerMiddleware = require('./middleware/error-handler');
+
 // Routes
 app.get('/', (req, res) => {
     res.send('E-commerce API')
 })
+
+// Middleware 
+app.use(notFoundMiddleware);
+app.use(errorHandlerMiddleware);
 
 // Start App Fnc
 const port = process.env.PORT || 5000;
