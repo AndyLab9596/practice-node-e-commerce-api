@@ -30,7 +30,7 @@ const updateUser = async (req, res) => {
     user.name = name;
     await user.save()
     const tokenUser = createTokenUser(user);
-    attachCookiesToResponse({ res, user: tokenUser })
+    attachCookiesResponse({ res, user: tokenUser })
     res.status(StatusCodes.OK).json({ user: tokenUser })
 }
 
@@ -43,7 +43,7 @@ const updateUserPassword = async (req, res) => {
     const user = await User.findOne({ _id: req.user.userId });
     const isPasswordCorrect = await user.comparePassword(oldPassword);
     if (!isPasswordCorrect) {
-        throw new CustomError.UnAuthorizedError('Invalid Credential')
+        throw new CustomError.UnauthorizedError('Invalid Credential')
     }
     user.password = newPassword;
     // because we go with user.save() -> the password still be hashed
